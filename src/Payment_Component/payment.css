@@ -1,0 +1,114 @@
+body{
+    height: 100vh;
+    box-sizing: border-box;
+  }
+  main{
+    height: 100vh;
+  }
+  
+  /* TABLE */
+  .payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 4px solid black;
+  }
+  
+  .payment-table th, td{
+    border: 2px solid black;
+    text-align: center;
+    width: 20%;
+  }
+  .payment-table td{
+    height: 50px;
+    white-space: nowrap;    /* Không xuống dòng */
+    overflow: hidden;       /* Ẩn phần dư thừa */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu bị cắt */
+    max-width: 150px;       /* Giới hạn chiều rộng */
+  }
+  
+  
+  .table-head span{
+    display: inline-block;
+    padding: 10px;
+    font-size: larger;
+    color: white;
+  
+    width: 150px;
+  
+    border-radius: 5px;
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(255, 134, 86);
+  }
+  /* TABLE */
+  
+  /* PAGE BUTTON */
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    padding: 20px;
+    
+  }
+  .next-button {
+    padding: 10px 20px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    
+  }
+  .prev-button {
+    padding: 10px 20px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    
+  }
+  /* PAGE BUTTON */
+  
+  /* IMAGE POPUP */
+  #image-popup{
+    position: fixed;
+    top: 25%;
+    left: 25%;
+  
+  
+    width: 50%;
+    height: 50%;
+  
+    background-color: rgba(0,0,0,0.5);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* IMAGE POPUP */
+  
+  /* TOOLTIP */
+  .tooltip-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+  
+    transform: translate(-50%, -50%);
+  
+    background: black;
+    color: white;
+  
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid white;
+  
+    height: 50%;
+    width: 50%;
+    
+    word-wrap: break-word; /* Tự động xuống dòng */
+    white-space: normal; /* Cho phép xuống dòng */
+  
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: left;
+  
+    font-size: 2em;
+  }
+  /* TOOLTIP */
