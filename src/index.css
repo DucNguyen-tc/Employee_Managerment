@@ -11,11 +11,12 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
+  /* color-scheme: light dark; */
   color: rgba(255, 255, 255, 0.87);
-  background: url('./assets/background.jpg') no-repeat;
-  background-size: cover;
-  background-position: center;
+  /* background: linear-gradient(135deg, #37c7c766, #1c30e97b); */
+  background-color: rgb(58, 171, 184);
+  /* background-size: cover;
+  background-position: center; */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,18 +24,18 @@
 }
 
 
-body {
+ /* body {
   display: flex;
   place-items: center;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-}
+} */
 
-h1 {
+/* h1 {
   font-size: 3.2em;
   line-height: 1.1;
-}
+} */ */
 
 button {
   border-radius: 8px;
@@ -63,7 +64,7 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  button {
+  /* button {
     background-color: #fff;
-  }
+  } */
 }
