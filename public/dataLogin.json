@@ -1,0 +1,12 @@
+[
+  {
+    "id_role": "user",
+    "email": "king@gmail.com",
+    "password": "123"
+  },
+  {
+    "id_role": "admin",
+    "email": "ducdepchai@gmail.com",
+    "password": "12345"
+  }
+]

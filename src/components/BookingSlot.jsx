@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { format } from "date-fns";
 
 const BookingSlots = () => {
   const days = [
@@ -11,6 +12,23 @@ const BookingSlots = () => {
     "Chủ nhật",
   ];
   const times = ["06h -> 11h", "11h -> 16h", "16h -> 21h"];
+  const [weekRange, setWeekRange] = useState("");
+
+  useEffect(() => {
+    const today = new Date(); //Lấy ngày hiện tại
+    const dayOfWeek = today.getDay(); //Lấy thứ (0 = Chủ Nhật, 1 = Thứ 2, ... , 6 = Thứ 7)
+
+    const daysUntilNextMonday = dayOfWeek === 0 ? 1 : 8 - dayOfWeek;
+    const nextMonday = new Date(today);
+    nextMonday.setDate(today.getDate() + daysUntilNextMonday);
+    const nextSunday = new Date(nextMonday);
+    nextSunday.setDate(nextMonday.getDate() + 6);
+    const formattedStart = format(nextMonday, 'dd/MM/yyyy');
+    const formattedEnd = format(nextSunday, 'dd/MM/yyyy');
+
+    // Cập nhật state để hiển thị trên giao diện
+    setWeekRange(`Từ ngày ${formattedStart} đến ${formattedEnd}`);
+  }, [])
 
   // Khởi tạo số slot còn lại là 3 cho tất cả ô
   const initialSlots = Array(times.length)
@@ -26,32 +44,76 @@ const BookingSlots = () => {
       .map(() => Array(days.length).fill(false))
   );
 
-  const handleSlotClick = (timeIndex, dayIndex) => {
+  // const handleSlotClick = (timeIndex, dayIndex) => {
+  //   const newSlots = [...slots];
+  //   const newSelectedSlots = [...selectedSlots];
+
+  //   if (!selectedSlots[timeIndex][dayIndex]) {
+  //     // Nếu chưa đăng ký ca, đăng ký (giảm slot)
+  //     if (slots[timeIndex][dayIndex] > 0) {
+  //       newSlots[timeIndex][dayIndex] -= 1;
+  //       newSelectedSlots[timeIndex][dayIndex] = true;
+  //     }
+  //   } else {
+  //     // Nếu đã đăng ký, huỷ (tăng slot lại)
+  //     newSlots[timeIndex][dayIndex] += 1;
+  //     newSelectedSlots[timeIndex][dayIndex] = false;
+  //   }
+
+  //   setSlots(newSlots);
+  //   setSelectedSlots(newSelectedSlots);
+  // };
+
+  const handleSlotClick = async (timeIndex, dayIndex) => {
     const newSlots = [...slots];
     const newSelectedSlots = [...selectedSlots];
-
+  
     if (!selectedSlots[timeIndex][dayIndex]) {
       // Nếu chưa đăng ký ca, đăng ký (giảm slot)
       if (slots[timeIndex][dayIndex] > 0) {
         newSlots[timeIndex][dayIndex] -= 1;
         newSelectedSlots[timeIndex][dayIndex] = true;
+  
+        const shift = timeIndex + 1;  // shift 1, 2, 3
+        const date = format(new Date(), 'yyyy-MM-dd');  // Ngày hiện tại
+  
+        // Gửi dữ liệu lên API
+        try {
+          const response = await fetch("http://localhost:5000/bookings", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              shift,
+              date
+            })
+          });
+  
+          const data = await response.json();
+          if (response.ok) {
+            console.log("Đăng ký thành công", data);
+          } else {
+            console.log("Đăng ký thất bại", data);
+          }
+        } catch (error) {
+          console.error("Error during booking", error);
+        }
       }
     } else {
-      // Nếu đã đăng ký, huỷ (tăng slot lại)
+      // Nếu đã đăng ký, hủy đăng ký
       newSlots[timeIndex][dayIndex] += 1;
       newSelectedSlots[timeIndex][dayIndex] = false;
     }
-
+  
     setSlots(newSlots);
     setSelectedSlots(newSelectedSlots);
   };
 
   return (
       <div className="w-full h-full p-6 bg-white/20 backdrop-blur-xs shadow-lg rounded-tl-4xl">
-        <h2 className="text-lg font-bold text-center p-7">
-          Từ ngày 20/09/2024 đến 27/09/2024
+        <h2 className="text-lg font-bold text-center p-3 table mx-auto rounded-3xl bg-white">
+          {weekRange}
         </h2>
-        <div className="grid grid-cols-[100px_repeat(7,1fr)] gap-3 mt-4">
+        <div className="grid grid-cols-[100px_repeat(7,1fr)] gap-3 mt-8">
           {/* Cột thời gian */}
           <div></div>
           {days.map((day, index) => (
